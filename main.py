@@ -11,8 +11,8 @@ import time
 # Returns system-wide network I/O statistics as a named tuple(pernic=False lists all interfaces and allows me to
 # access individual interface stats since the returned object remains a named tuple)
 network_stats = psutil.net_io_counters(pernic=False, nowrap=True)
-# Get a list of all current socket connections(test with all kinds of connections and then filter later)
-socket_connections = psutil.net_connections(kind="all")
+# Get a list of all current socket connections(Only Ipv4 and IPv6 connections)
+socket_connections = psutil.net_connections(kind="inet")
 
 print("Welcome to my network monitoring script")
 time.sleep(1)
@@ -25,4 +25,11 @@ print(
     f" = {network_stats.errin}, total sending errors = {network_stats.errout}, total dropped packets"
     f" = {network_stats.dropin + network_stats.dropout}"
 )
+
+# Display socket connections based on some criteria:
+# Only IPV4(AF_INET) and IPV6(AF_INET6) address family connections
+# Only TCP(SOCK_STREAM) and UDP(SOCK_DGRAM) socket types
+# State is established connections(the connection is open and data can be sent and received)
+
+
 print(f"System wide socket connections: {socket_connections}")

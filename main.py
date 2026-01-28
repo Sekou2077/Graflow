@@ -44,4 +44,4 @@ for connection in socket_connections:
             or connection.status == psutil.CONN_NONE
         )
     ):
-        print(f"Socket connections: {socket_connections}")
+        print(f"Socket connection: {connection}")

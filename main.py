@@ -20,7 +20,7 @@ print("Gathering network statistics...")
 time.sleep(3)
 # Display network statistics in easier formatting
 print(
-    f"network stats: bytes sent = {network_stats.bytes_sent}, bytes received = {network_stats.bytes_recv}, pac"
+    f" system wide network stats: bytes sent = {network_stats.bytes_sent}, bytes received = {network_stats.bytes_recv}, pac"
     f"kets sent = {network_stats.packets_sent}, packets received = {network_stats.packets_recv}, total receiving errors"
     f" = {network_stats.errin}, total sending errors = {network_stats.errout}, total dropped packets"
     f" = {network_stats.dropin + network_stats.dropout}"
@@ -31,6 +31,7 @@ print(
 # Only TCP(SOCK_STREAM) and UDP(SOCK_DGRAM) socket types
 # State is established connections(the connection is open and data can be sent and received)
 # The socket library is needed to interpret the address family and socket type constants
+# UDP connections have a status of NONE since it is connectionless
 for connection in socket_connections:
     if (
         connection.family in (socket.AF_INET, socket.AF_INET6)
@@ -44,4 +45,7 @@ for connection in socket_connections:
             or connection.status == psutil.CONN_NONE
         )
     ):
-        print(f"Socket connection: {connection}")
+        print(
+            f"Socket connection: family={connection.family}, type={connection.type},status={connection.status},"
+            f" local address={connection.laddr}"
+        )

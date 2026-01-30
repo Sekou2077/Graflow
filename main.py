@@ -13,6 +13,8 @@ import socket
 network_stats = psutil.net_io_counters(pernic=False, nowrap=True)
 # Get a list of all current socket connections(Only Ipv4 and IPv6 connections)
 socket_connections = psutil.net_connections(kind="inet")
+# Get network interface card information as a dictionary whose keys are NIC names and values are a named tuple
+network_interfaces = psutil.net_if_stats()
 
 print("Welcome to my network monitoring script")
 time.sleep(1)
@@ -54,3 +56,14 @@ for connection in socket_connections:
             f"Socket connection: family={family_name}, type={type_name},status={connection.status},"
             f" local address={connection.laddr}"
         )
+
+# Display network interface information
+print("Gathering network interface information...")
+time.sleep(3)
+for interface_name, interface_info in network_interfaces.items():
+    is_up = "up" if interface_stats.isup else "down"
+    print(
+        f"Interface: {interface_name}, status={is_up}, speed={interface_stats.speed}Mbps, "
+        f"MTU={interface_stats.mtu}, duplex={'full' if interface_stats.duplex == psutil.NIC_DUPLEX_FULL else 'half' if
+        interface_stats.duplex == psutil.NIC_DUPLEX_HALF else 'unknown'}"
+    )

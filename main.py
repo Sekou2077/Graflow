@@ -5,15 +5,20 @@
 # Make output more user-friendly(change AF_INET to IPv4, etc.)
 # Start styling the interface with rich
 
+import socket
+import time
+
 # interesting library that provides system and network information(psutil)
 import psutil
-import time
-import socket
 from rich.console import Console
 from rich.progress import track
+from rich.theme import Theme
+
+# Custom theming
+custom_theme = Theme({"info": "dim cyan", "warning": "magenta", "danger": "bold red"})
 
 # Initialize rich console for better output formatting
-console = Console()
+console = Console(theme=custom_theme)
 
 # Returns system-wide network I/O statistics as a named tuple(pernic=False condenses stats for all network interfaces)
 network_stats = psutil.net_io_counters(pernic=False, nowrap=True)
@@ -37,7 +42,7 @@ print(
     f" = {network_stats.dropin + network_stats.dropout}"
 )
 
-print("Gathering socket connection information...")
+# Simulate processing socket connections with a progress bar
 for _i in track(range(3), description="Processing socket connections..."):
     time.sleep(3)
 # Display socket connections based on some criteria:
@@ -61,15 +66,16 @@ for connection in socket_connections:
     ):
         family_name = "IPv4" if connection.family == socket.AF_INET else "IPv6"
         type_name = "TCP" if connection.type == socket.SOCK_STREAM else "UDP"
-        print(
+
+        console.print(
             f"Socket connection: family={family_name}, type={type_name},status={connection.status},"
             f" local address={connection.laddr}"
         )
 
 # Display network interface information
 # filter out loopback(self) and LANs to show more live information
-print("Gathering network interface information...")
-time.sleep(3)
+for _i in track(range(3), description="Processing network interfaces..."):
+    time.sleep(3)
 for interface_name, interface_info in network_interfaces.items():
     is_up = "up" if interface_info.isup else "down"
     if interface_name.lower().startswith(

@@ -122,6 +122,6 @@ def process_packet(packet):
         dst_ip = ip_layer.dst
         protocol = ip_layer.proto
         console.print(
-            f"Packet: [general]Source IP:[/general] {src_ip}, [general]Destination IP:[/general] {dst_ip}, "
+            f"Packet: [general]Source IP:[/general] {src_ip} ->  [general]Destination IP:[/general] {dst_ip}, "
             f"[general]Protocol:[/general] {protocol}"
         )

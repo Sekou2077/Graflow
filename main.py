@@ -4,9 +4,11 @@
 # Filter for specific socket connections based on criteria
 # Make output more user-friendly(change AF_INET to IPv4, etc.)
 # Start styling the interface with rich
+# Start sniffing packets
 
 import socket
 import time
+from scapy.all import sniff
 
 # interesting library that provides system and network information(psutil)
 import psutil
@@ -18,7 +20,7 @@ from rich.theme import Theme
 custom_theme = Theme(
     {
         "general": "dim cyan",
-        "tcp": "magenta",
+        "tcp": "orange_red1",
         "udp": "deep_pink4",
         "ipv4": "bold green",
         "ipv6": "bold blue",
@@ -47,7 +49,7 @@ for i in track(
 
 # Display network statistics in easier formatting
 print(
-    f" system wide network stats: bytes sent = {network_stats.bytes_sent}, bytes received = {network_stats.bytes_recv},"
+    f" System wide network stats: bytes sent = {network_stats.bytes_sent}, bytes received = {network_stats.bytes_recv},"
     f"pac"
     f"kets sent = {network_stats.packets_sent}, packets received = {network_stats.packets_recv}, total receiving errors"
     f" = {network_stats.errin}, total sending errors = {network_stats.errout}, total dropped packets"
@@ -110,3 +112,16 @@ for interface_name, interface_info in network_interfaces.items():
         f"Interface: {interface_name}, status={is_up}, speed={interface_info.speed}MB, "
         f"Maximum transmission Unit={interface_info.mtu} bytes"
     )
+
+
+# Function to process sniffed packets and display relevant information(scapy only captures silently)
+def process_packet(packet):
+    if packet.haslayer("IP"):
+        ip_layer = packet["IP"]
+        src_ip = ip_layer.src
+        dst_ip = ip_layer.dst
+        protocol = ip_layer.proto
+        console.print(
+            f"Packet: [general]Source IP:[/general] {src_ip}, [general]Destination IP:[/general] {dst_ip}, "
+            f"[general]Protocol:[/general] {protocol}"
+        )

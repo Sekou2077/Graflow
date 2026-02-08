@@ -134,7 +134,7 @@ def process_packet(packet):
 
 # Fetch the IP address
 ip_address = os.getenv("IP_ADDRESS")
-print("Capturing traffic involving IP address:", ip_address)
+print("Capturing traffic involving IP address(Ctrl+C to stop):", ip_address)
 # Start sniffing packets that involve the specified IP address
 
 # Sniffing packets using processing function and make sure non-promiscuous mode is used to avoid capturing all traffic

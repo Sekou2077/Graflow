@@ -1,10 +1,11 @@
 # Author: Sekou Traore
 # Network monitoring script
-# Make a minimum working version and incrementally improve
+# Improve
 # Filter for specific socket connections based on criteria
 # Make output more user-friendly(change AF_INET to IPv4, etc.)
 # Start styling the interface with rich
 # Start sniffing packets
+# Maybe go for a mode based interface where users can choose to view network stats, socket connections, or sniff packets
 
 import os
 import socket
@@ -131,6 +132,10 @@ def process_packet(packet):
             protocol = "TCP"
         elif protocol == 17:
             protocol = "UDP"
+        elif protocol == 1:
+            protocol = "ICMP"
+        elif protocol == 2:
+            protocol = "IGMP"
         console.print(
             f"Packet: [general]Source IP:[/general] {src_ip} ->  [general]Destination IP:[/general] {dst_ip}, "
             f"[general]Protocol:[/general] {protocol}"

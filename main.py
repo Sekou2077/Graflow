@@ -173,3 +173,27 @@ def sniff_traffic():
         )
     finally:
         console.print("Sniffing session stopped by user.", style="general")
+
+
+def main():
+    while True:
+        console.print(
+            "\nSelect an option:\n1. Display Network Statistics\n2. Show Socket Connections\n3."
+            " Display Network Interfaces\n4. Sniff Network Traffic\n5. Exit",
+            style="general",
+        )
+        choice = console.input("Enter your choice (1-5): ").strip()
+
+        if choice == "1":
+            display_network_stats()
+        elif choice == "2":
+            show_socket_connections()
+        elif choice == "3":
+            display_network_interfaces()
+        elif choice == "4":
+            sniff_traffic()
+        elif choice == "5":
+            console.print("Exiting Graflow. Goodbye!", style="general")
+            break
+        else:
+            console.print("Invalid choice. Please try again.", style="general")

@@ -1,11 +1,5 @@
 # Author: Sekou Traore
-# Network monitoring script
-# Improve
-# Filter for specific socket connections based on criteria
-# Make output more user-friendly(change AF_INET to IPv4, etc.)
-# Start styling the interface with rich
-# Start sniffing packets
-# Maybe go for a mode based interface where users can choose to view network stats, socket connections, or sniff packets
+# Network monitoring script: Graflow
 
 import os
 import socket
